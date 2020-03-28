@@ -9,6 +9,7 @@ import bg.qponer.qponerbackend.domain.repo.CountryRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class ContributorService(
@@ -18,9 +19,10 @@ class ContributorService(
         @Autowired private val passwordEncoder: PasswordEncoder
 ) {
 
+    @Transactional
     fun save(body: ContributorRequestBody): ContributorResponseBody =
             body.toEntity()
-                    .also { contributorRepo.save(it) }
+                    .let { contributorRepo.save(it) }
                     .toResponseBody()
 
 
