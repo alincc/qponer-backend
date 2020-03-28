@@ -5,15 +5,17 @@ import bg.qponer.qponerbackend.domain.repo.BusinessOwnerRepo
 import bg.qponer.qponerbackend.domain.repo.CityRepo
 import bg.qponer.qponerbackend.domain.repo.CountryRepo
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.util.*
 import javax.annotation.PostConstruct
 
 @Component
 class ApplicationStartup(
-        @Autowired var businessOwnerRepo: BusinessOwnerRepo,
-        @Autowired var cityRepo: CityRepo,
-        @Autowired var countryRepo: CountryRepo
+        @Autowired val businessOwnerRepo: BusinessOwnerRepo,
+        @Autowired val cityRepo: CityRepo,
+        @Autowired val countryRepo: CountryRepo,
+        @Autowired val passwordEncoder: PasswordEncoder
 ) {
 
     @PostConstruct fun init() {
@@ -26,8 +28,7 @@ class ApplicationStartup(
         val address = Address(line1 = "Mladost", city = city, country = country, postalCode = "1000", region = "Sofia")
         val businessOwner = BusinessOwner(
                 username = "dakata",
-                // TODO hash
-                password = "password",
+                password = passwordEncoder.encode("password"),
                 firstName = "Danail",
                 lastName = "Danailov",
                 address = address,

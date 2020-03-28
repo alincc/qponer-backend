@@ -22,4 +22,6 @@ interface BusinessOwnerRepo
             @Param("type") type: BusinessType?,
             @Param("nameQuery") nameQuery: String?
     ): List<BusinessOwner>
+
+    fun findByUsername(username: String): BusinessOwner
 }
