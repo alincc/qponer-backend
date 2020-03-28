@@ -2,6 +2,7 @@ package bg.qponer.qponerbackend.domain.controller
 
 import bg.qponer.qponerbackend.domain.dto.BusinessOwnerRequestBody
 import bg.qponer.qponerbackend.domain.service.BusinessOwnerService
+import bg.qponer.qponerbackend.domain.service.VoucherService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -9,7 +10,8 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("api/v1")
 class BusinessOwnerController(
-        @Autowired private val businessOwnerService: BusinessOwnerService
+        @Autowired private val businessOwnerService: BusinessOwnerService,
+        @Autowired private val voucherService: VoucherService
 ) {
 
     @PostMapping("/businessOwners")
@@ -30,6 +32,11 @@ class BusinessOwnerController(
                 type,
                 query
         )
+    }
+
+    @GetMapping("/businessOwners/{id}/vouchers")
+    fun findVouchersForOwner(@PathVariable("id") ownerId: Long) = runServiceMethod {
+        voucherService.findAllForOwner(ownerId)
     }
 }
 

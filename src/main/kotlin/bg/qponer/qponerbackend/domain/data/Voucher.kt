@@ -4,16 +4,20 @@ import java.math.BigDecimal
 import javax.persistence.*
 
 @Entity
+@Table(
+        uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("owner_id", "contributor_id"))],
+        indexes = [Index(columnList = "owner_id, contributor_id", unique = true)]
+)
 class Voucher(
         @get:Id
-        @get:GeneratedValue var id: Long? = null,
+        @get:GeneratedValue
+        var id: Long? = null,
 
-        @get:Enumerated(EnumType.STRING)
-        var type: VoucherType,
+        @get:ManyToOne
+        var owner: BusinessOwner,
+
+        @get:ManyToOne
+        var contributor: Contributor,
 
         var value: BigDecimal
 )
-
-enum class VoucherType {
-    BRONZE, SILVER, GOLD
-}
