@@ -5,13 +5,11 @@ import bg.qponer.qponerbackend.domain.data.VoucherType
 import bg.qponer.qponerbackend.domain.dto.VoucherRequestBody
 import bg.qponer.qponerbackend.domain.dto.VoucherResponseBody
 import bg.qponer.qponerbackend.domain.dto.VoucherTypeResponseBody
-import bg.qponer.qponerbackend.domain.repo.BusinessOwnerRepo
-import bg.qponer.qponerbackend.domain.repo.ContributorRepo
-import bg.qponer.qponerbackend.domain.repo.VoucherRepo
-import bg.qponer.qponerbackend.domain.repo.VoucherTypeRepo
+import bg.qponer.qponerbackend.domain.repo.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 import java.math.BigDecimal
 import javax.transaction.Transactional
 
@@ -20,7 +18,9 @@ class VoucherService(
         @Autowired private val voucherTypeRepo: VoucherTypeRepo,
         @Autowired private val voucherRepo: VoucherRepo,
         @Autowired private val businessOwnerRepo: BusinessOwnerRepo,
-        @Autowired private val contributorRepo: ContributorRepo
+        @Autowired private val contributorRepo: ContributorRepo,
+        @Autowired private val cardRepo: CardRepo,
+        @Autowired private val mangoPayRepo: MangoPayRepo
 ) {
 
     fun findAllTypes() = voucherTypeRepo.findAll().map { it.toResponseBody() }
@@ -30,14 +30,28 @@ class VoucherService(
     fun findAllForContributor(contributorId: Long) = voucherRepo.findByContributor(contributorId).map { it.toResponseBody() }
 
     @Transactional
-    fun buyVoucher(body: VoucherRequestBody) =
-            voucherRepo.findByBusinessOwnerAndContributor(body.businessOwnerId, body.contributorId)
-                    .orElse(body.toEntity())
-                    .apply {
-                        value += body.voucherTypeId.toVoucherTypeWithId().value
-                    }
-                    .let { voucherRepo.save(it) }
-                    .toResponseBody()
+    fun buyVoucher(body: VoucherRequestBody): VoucherResponseBody {
+        val contributor = body.contributorId.toContributorWithId(contributorRepo)
+        val owner = body.businessOwnerId.toBusinessOwnerWithId()
+        val card = cardRepo.findByIdOrNull(body.cardId)
+                ?: throw InvalidDataException("Missing card with id: ${body.cardId}")
+        val amount = body.voucherTypeId.toVoucherTypeWithId().value
+        if (!mangoPayRepo.transferFunds(
+                        contributor.walletId,
+                        owner.walletId,
+                        card.tokenId,
+                        amount)) {
+            throw RuntimeException("Could not process transfer")
+        }
+
+        return voucherRepo.findByBusinessOwnerAndContributor(body.businessOwnerId, body.contributorId)
+                .orElse(body.toEntity())
+                .apply {
+                    value += amount
+                }
+                .let { voucherRepo.save(it) }
+                .toResponseBody()
+    }
 
 
     private fun VoucherType.toResponseBody() =

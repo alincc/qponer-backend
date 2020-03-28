@@ -7,7 +7,6 @@ import bg.qponer.qponerbackend.domain.service.ContributorService
 import bg.qponer.qponerbackend.domain.service.VoucherService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import javax.websocket.server.PathParam
 
 @RestController
 @RequestMapping("api/v1")
@@ -33,10 +32,18 @@ class ContributorController(
 
     @PostMapping("/contributors/{id}/cards")
     fun createCardForContributor(
+            @PathVariable("id") contributorId: Long
+    ) = runServiceMethod {
+        cardService.createRegistration(contributorId)
+    }
+
+    @PostMapping("/contributors/{id}/cards/{cardRegistrationId}")
+    fun createCardForContributor(
             @PathVariable("id") contributorId: Long,
+            @PathVariable("cardRegistrationId") cardRegistrationId: String,
             @RequestBody body: CardRequestBody
     ) = runServiceMethod {
-        cardService.save(contributorId, body)
+        cardService.completeRegistration(cardRegistrationId, contributorId, body)
     }
 
     @GetMapping("/contributors/{id}/vouchers")
