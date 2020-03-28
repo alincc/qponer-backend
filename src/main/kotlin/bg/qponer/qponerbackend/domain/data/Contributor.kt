@@ -5,10 +5,10 @@ import javax.persistence.Entity
 
 @Entity
 class Contributor(
-        id: Long?,
+        id: Long? = null,
         username: String,
         password: String,
-        avatarUrl: String,
+        avatarUrl: String?,
         firstName: String,
         lastName: String,
         address: Address,
