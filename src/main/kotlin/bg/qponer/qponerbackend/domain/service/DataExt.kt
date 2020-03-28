@@ -4,6 +4,7 @@ import bg.qponer.qponerbackend.domain.data.Address
 import bg.qponer.qponerbackend.domain.data.Country
 import bg.qponer.qponerbackend.domain.dto.AddressDto
 import bg.qponer.qponerbackend.domain.repo.CityRepo
+import bg.qponer.qponerbackend.domain.repo.ContributorRepo
 import bg.qponer.qponerbackend.domain.repo.CountryRepo
 import org.springframework.data.repository.findByIdOrNull
 
@@ -35,3 +36,5 @@ fun Long.toCountryWithId(countryRepo: CountryRepo): Country = countryRepo.findBy
 fun Long.toCityWithId(cityRepo: CityRepo) = cityRepo.findByIdOrNull(this)
         ?: throw InvalidDataException("Missing city with id: $this")
 
+fun Long.toContributorWithId(contributorRepo: ContributorRepo) = contributorRepo.findByIdOrNull(this)
+        ?: throw MissingDataException("Missing contributor with id: $this")

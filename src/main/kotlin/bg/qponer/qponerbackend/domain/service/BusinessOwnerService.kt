@@ -10,6 +10,7 @@ import bg.qponer.qponerbackend.domain.repo.CountryRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class BusinessOwnerService(
@@ -19,9 +20,10 @@ class BusinessOwnerService(
         @Autowired private val passwordEncoder: PasswordEncoder
 ) {
 
+    @Transactional
     fun save(body: BusinessOwnerRequestBody) =
             body.toEntity()
-                    .also { businessOwnerRepo.save(it) }
+                    .let { businessOwnerRepo.save(it) }
                     .toResponseBody()
 
     fun findAllByFilter(
