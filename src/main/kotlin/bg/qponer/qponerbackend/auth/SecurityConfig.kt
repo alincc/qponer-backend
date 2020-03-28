@@ -4,6 +4,7 @@ import bg.qponer.qponerbackend.domain.service.auth.CustomUserDetailsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -47,6 +48,7 @@ class SecurityConfig(
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/businessOwners", "/api/v1/contributors").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated()
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
