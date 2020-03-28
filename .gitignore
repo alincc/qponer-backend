@@ -87,4 +87,5 @@ fabric.properties
 .idea/httpRequests
 
 # General
+build/
 .DS_Store
