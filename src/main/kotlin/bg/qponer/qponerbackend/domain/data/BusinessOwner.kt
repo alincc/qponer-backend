@@ -10,7 +10,7 @@ class BusinessOwner(
         id: Long? = null,
         username: String,
         password: String,
-        avatarUrl: String?,
+        avatarUrl: String? = null,
         firstName: String,
         lastName: String,
         address: Address,
