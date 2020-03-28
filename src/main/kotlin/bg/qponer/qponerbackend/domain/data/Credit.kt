@@ -8,8 +8,15 @@ import javax.persistence.ManyToOne
 
 @Entity
 class Credit(
-        @Id @GeneratedValue var id: Long? = null,
-        @ManyToOne var owner: BusinessOwner,
-        @ManyToOne var contributor: Contributor,
+        @get:Id
+        @get:GeneratedValue
+        var id: Long? = null,
+
+        @get:ManyToOne
+        var owner: BusinessOwner,
+
+        @get:ManyToOne
+        var contributor: Contributor,
+
         var value: BigDecimal
 )

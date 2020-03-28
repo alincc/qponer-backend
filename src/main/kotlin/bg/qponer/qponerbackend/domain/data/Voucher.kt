@@ -5,8 +5,12 @@ import javax.persistence.*
 
 @Entity
 class Voucher(
-        @Id @GeneratedValue var id: Long? = null,
-        @Enumerated(EnumType.STRING) var type: VoucherType,
+        @get:Id
+        @get:GeneratedValue var id: Long? = null,
+
+        @get:Enumerated(EnumType.STRING)
+        var type: VoucherType,
+
         var value: BigDecimal
 )
 
