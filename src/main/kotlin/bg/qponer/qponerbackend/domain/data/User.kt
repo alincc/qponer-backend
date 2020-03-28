@@ -13,12 +13,13 @@ abstract class User(
 
         var password: String,
 
-        var avatarUrl: String,
+        var avatarUrl: String?,
 
         var firstName: String,
 
         var lastName: String,
 
+        @get:Embedded
         var address: Address,
 
         @get:Temporal(TemporalType.DATE)

@@ -4,7 +4,12 @@ import javax.persistence.*
 
 @Entity
 class City(
-       @Id @GeneratedValue var id: Long? = null,
+       @get:Id
+       @get:GeneratedValue
+       var id: Long? = null,
+
        var name: String,
-       @ManyToOne var country: Country
+
+       @get:ManyToOne
+       var country: Country
 )

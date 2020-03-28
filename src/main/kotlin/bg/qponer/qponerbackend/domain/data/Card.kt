@@ -6,8 +6,13 @@ import javax.persistence.Id
 
 @Entity
 class Card(
-        @Id @GeneratedValue var id: Long? = null,
+        @get:Id
+        @get:GeneratedValue
+        var id: Long? = null,
+
         var tokenId: String,
+
         var displayName: String,
+
         var expiryDate: String
 )
