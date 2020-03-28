@@ -1,6 +1,6 @@
 package bg.qponer.qponerbackend.auth
 
-import bg.qponer.qponerbackend.domain.service.oauth2.data.QponerPrincipal
+import bg.qponer.qponerbackend.domain.service.auth.data.QponerPrincipal
 import io.jsonwebtoken.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

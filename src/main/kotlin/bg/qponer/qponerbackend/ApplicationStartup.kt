@@ -1,10 +1,7 @@
 package bg.qponer.qponerbackend
 
 import bg.qponer.qponerbackend.domain.data.*
-import bg.qponer.qponerbackend.domain.repo.BusinessOwnerRepo
-import bg.qponer.qponerbackend.domain.repo.CityRepo
-import bg.qponer.qponerbackend.domain.repo.CountryRepo
-import bg.qponer.qponerbackend.domain.repo.VoucherTypeRepo
+import bg.qponer.qponerbackend.domain.repo.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
@@ -14,10 +11,11 @@ import javax.annotation.PostConstruct
 
 @Component
 class ApplicationStartup(
-        @Autowired var businessOwnerRepo: BusinessOwnerRepo,
-        @Autowired var cityRepo: CityRepo,
-        @Autowired var countryRepo: CountryRepo,
-        @Autowired var voucherTypeRepo: VoucherTypeRepo,
+        @Autowired val businessOwnerRepo: BusinessOwnerRepo,
+        @Autowired val contributorRepo: ContributorRepo,
+        @Autowired val cityRepo: CityRepo,
+        @Autowired val countryRepo: CountryRepo,
+        @Autowired val voucherTypeRepo: VoucherTypeRepo,
         @Autowired val passwordEncoder: PasswordEncoder
 ) {
 
@@ -46,6 +44,20 @@ class ApplicationStartup(
                 businessDescription = "le chef deuvre"
         )
         businessOwnerRepo.save(businessOwner)
+
+        val contributor = Contributor(
+                username = "pocko",
+                password = passwordEncoder.encode("password"),
+                firstName = "Pocko",
+                lastName = "Pockov",
+                address = address,
+                dateOfBirth = Calendar.getInstance(),
+                nationality = country,
+                countryOfResidence = country,
+                walletUserId = "1",
+                walletId = "1"
+        )
+        contributorRepo.save(contributor)
 
         val bronzeVoucher = VoucherType(typeName = VoucherTypeName.BRONZE, value = BigDecimal.valueOf(10L))
         val silverVoucher = VoucherType(typeName = VoucherTypeName.SILVER, value = BigDecimal.valueOf(20L))

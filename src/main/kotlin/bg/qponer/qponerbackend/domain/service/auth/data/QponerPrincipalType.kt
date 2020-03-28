@@ -1,4 +1,4 @@
-package bg.qponer.qponerbackend.domain.service.oauth2.data
+package bg.qponer.qponerbackend.domain.service.auth.data
 
 enum class QponerPrincipalType {
     BUSINESS_OWNER, CONTRIBUTOR

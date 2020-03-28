@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CityRepo : CrudRepository<City, Long> {
 
-    @Query("select c City c where c.country.id = :countryId")
-    fun findByCountry(@Param("countryId") countryId: Long): List<City>
+    fun findByCountry_Id(@Param("countryId") countryId: Long): List<City>
 
 }

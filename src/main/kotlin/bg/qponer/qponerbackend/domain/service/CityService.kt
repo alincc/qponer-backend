@@ -11,7 +11,7 @@ class CityService(
         @Autowired private val cityRepo: CityRepo
 ) {
 
-    fun findAllByCountry(countryId: Long) = cityRepo.findByCountry(countryId)
+    fun findAllByCountry(countryId: Long) = cityRepo.findByCountry_Id(countryId)
 
     private fun City.toResponseBody() =
             CityResponseBody(

@@ -3,7 +3,7 @@ package bg.qponer.qponerbackend.domain.controller
 import bg.qponer.qponerbackend.auth.JwtUtils
 import bg.qponer.qponerbackend.domain.dto.JwtResponse
 import bg.qponer.qponerbackend.domain.dto.LoginRequest
-import bg.qponer.qponerbackend.domain.service.oauth2.data.QponerPrincipal
+import bg.qponer.qponerbackend.domain.service.auth.data.QponerPrincipal
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager

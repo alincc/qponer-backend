@@ -1,6 +1,6 @@
 package bg.qponer.qponerbackend.auth
 
-import bg.qponer.qponerbackend.domain.service.oauth2.CustomUserDetailsService
+import bg.qponer.qponerbackend.domain.service.auth.CustomUserDetailsService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

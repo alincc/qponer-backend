@@ -1,4 +1,4 @@
-package bg.qponer.qponerbackend.domain.service.oauth2.data
+package bg.qponer.qponerbackend.domain.service.auth.data
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
