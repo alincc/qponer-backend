@@ -28,9 +28,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
-//	implementation("org.springframework.security.oauth:spring-security-oauth2")
-	implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.2.5.RELEASE")
-
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
