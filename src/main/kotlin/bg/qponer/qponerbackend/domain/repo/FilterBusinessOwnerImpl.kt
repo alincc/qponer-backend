@@ -9,7 +9,7 @@ import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 import javax.persistence.criteria.Predicate
 
-@Repository
+//@Repository
 class FilterBusinessOwnerImpl(
         @PersistenceContext private val entityManager: EntityManager
 ) : CanFilterBusinessOwner {
