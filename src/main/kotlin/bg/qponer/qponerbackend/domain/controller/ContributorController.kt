@@ -26,14 +26,14 @@ class ContributorController(
 
     @GetMapping("/contributors/{id}/cards")
     fun findCardsForContributor(
-            @PathParam("id") contributorId: Long
+            @PathVariable("id") contributorId: Long
     ) = runServiceMethod {
         cardService.findAllByOwnerId(contributorId)
     }
 
     @PostMapping("/contributors/{id}/cards")
     fun createCardForContributor(
-            @PathParam("id") contributorId: Long,
+            @PathVariable("id") contributorId: Long,
             @RequestBody body: CardRequestBody
     ) = runServiceMethod {
         cardService.save(contributorId, body)
@@ -41,7 +41,7 @@ class ContributorController(
 
     @GetMapping("/contributors/{id}/vouchers")
     fun findVouchersForContributor(
-            @PathParam("id") contributorId: Long
+            @PathVariable("id") contributorId: Long
     ) = runServiceMethod {
         voucherService.findAllForContributor(contributorId)
     }
