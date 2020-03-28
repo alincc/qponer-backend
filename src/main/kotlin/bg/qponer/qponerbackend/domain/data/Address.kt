@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne
 class Address(
         var line1: String,
 
-        var line2: String?,
+        var line2: String? = null,
 
         @get:ManyToOne
         var city: City,
