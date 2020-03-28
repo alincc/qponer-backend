@@ -4,8 +4,10 @@ import bg.qponer.qponerbackend.domain.data.*
 import bg.qponer.qponerbackend.domain.repo.BusinessOwnerRepo
 import bg.qponer.qponerbackend.domain.repo.CityRepo
 import bg.qponer.qponerbackend.domain.repo.CountryRepo
+import bg.qponer.qponerbackend.domain.repo.VoucherTypeRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.math.BigDecimal
 import java.util.*
 import javax.annotation.PostConstruct
 
@@ -13,10 +15,12 @@ import javax.annotation.PostConstruct
 class ApplicationStartup(
         @Autowired var businessOwnerRepo: BusinessOwnerRepo,
         @Autowired var cityRepo: CityRepo,
-        @Autowired var countryRepo: CountryRepo
+        @Autowired var countryRepo: CountryRepo,
+        @Autowired var voucherTypeRepo: VoucherTypeRepo
 ) {
 
-    @PostConstruct fun init() {
+    @PostConstruct
+    fun init() {
         val country = Country(code = "BG", name = "Bulgaria")
         countryRepo.save(country)
 
@@ -35,13 +39,16 @@ class ApplicationStartup(
                 nationality = country,
                 countryOfResidence = country,
                 walletUserId = "1",
-                walletId ="1",
+                walletId = "1",
                 type = BusinessType.BAR,
                 businessName = "Masterpiece",
                 businessDescription = "le chef deuvre"
         )
         businessOwnerRepo.save(businessOwner)
 
-        val all = businessOwnerRepo.findAll()
+        val bronzeVoucher = VoucherType(typeName = VoucherTypeName.BRONZE, value = BigDecimal.valueOf(10L))
+        val silverVoucher = VoucherType(typeName = VoucherTypeName.SILVER, value = BigDecimal.valueOf(20L))
+        val goldVoucher = VoucherType(typeName = VoucherTypeName.GOLD, value = BigDecimal.valueOf(50L))
+        voucherTypeRepo.saveAll(listOf(bronzeVoucher, silverVoucher, goldVoucher))
     }
 }

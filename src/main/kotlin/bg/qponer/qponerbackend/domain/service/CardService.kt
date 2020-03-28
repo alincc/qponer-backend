@@ -40,9 +40,6 @@ class CardService(
 
     private fun String.asMaskedCreditCardNumber() = this.replaceRange(0, length - 5, "*".repeat(length - 4))
 
-    private fun Long.toContributorWithId(contributorRepo: ContributorRepo) = contributorRepo.findByIdOrNull(this)
-            ?: throw MissingDataException("Missing contributor with id: $this")
-
     private fun Card.toResponseBody() =
             CardResponseBody(
                     id!!,
