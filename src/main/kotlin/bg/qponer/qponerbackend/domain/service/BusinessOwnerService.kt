@@ -4,10 +4,13 @@ import bg.qponer.qponerbackend.domain.data.BusinessOwner
 import bg.qponer.qponerbackend.domain.data.BusinessType
 import bg.qponer.qponerbackend.domain.dto.BusinessOwnerRequestBody
 import bg.qponer.qponerbackend.domain.dto.BusinessOwnerResponseBody
+import bg.qponer.qponerbackend.domain.dto.RankedContributor
 import bg.qponer.qponerbackend.domain.repo.BusinessOwnerRepo
 import bg.qponer.qponerbackend.domain.repo.CityRepo
 import bg.qponer.qponerbackend.domain.repo.CountryRepo
+import bg.qponer.qponerbackend.domain.service.auth.data.QponerPrincipal
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -38,6 +41,12 @@ class BusinessOwnerService(
             { BusinessType.valueOf(type) },
             query
     ).map { it.toResponseBody() }
+
+    fun getTopContributors(): List<RankedContributor> {
+        val qponerPrincipal = SecurityContextHolder.getContext().authentication.principal as QponerPrincipal
+        val businessOwnerId = qponerPrincipal.id
+        return businessOwnerRepo.getTopContributors(businessOwnerId)
+    }
 
     private fun BusinessOwner.toResponseBody() =
             BusinessOwnerResponseBody(
