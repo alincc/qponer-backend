@@ -17,9 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Configuration
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 class SecurityConfig(
         @Autowired private val customUserDetails: CustomUserDetailsService,
         @Autowired private val unauthorizedHandler: AuthEntryPointJwt,
