@@ -25,15 +25,7 @@ class AuthorizationServerConfiguration(
 
     @Throws(Exception::class)
     override fun configure(clients: ClientDetailsServiceConfigurer) {
-        // TODO not in memory
-        clients.inMemory()
-                .withClient("client")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
-                .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT", "USER")
-                .scopes("read", "write")
-                .autoApprove(true)
-                .redirectUris("http://localhost:4040/")
-                .secret(passwordEncoder.encode("password"))
+        clients.jdbc(dataSource)
     }
 
     @Throws(Exception::class)

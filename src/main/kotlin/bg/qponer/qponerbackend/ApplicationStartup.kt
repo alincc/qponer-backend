@@ -9,9 +9,10 @@ import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.util.*
 import javax.annotation.PostConstruct
+import javax.sql.DataSource
 
 @Component
-@Profile("!prod")
+@Profile("dev")
 class ApplicationStartup(
         @Autowired val businessOwnerRepo: BusinessOwnerRepo,
         @Autowired val contributorRepo: ContributorRepo,
@@ -19,7 +20,8 @@ class ApplicationStartup(
         @Autowired val countryRepo: CountryRepo,
         @Autowired val voucherRepo: VoucherRepo,
         @Autowired val voucherTypeRepo: VoucherTypeRepo,
-        @Autowired val passwordEncoder: PasswordEncoder
+        @Autowired val passwordEncoder: PasswordEncoder,
+        @Autowired val dataSource: DataSource
 ) {
 
     @PostConstruct
@@ -86,5 +88,22 @@ class ApplicationStartup(
 
 //        createVouchers(contributor, businessOwner, arrayOf(goldVoucher, goldVoucher));
 //        createVouchers(contributor1, businessOwner, arrayOf(silverVoucher, silverVoucher, silverVoucher));
+
+        initClients()
+    }
+
+    private fun initClients() {
+        val connection = dataSource.connection
+        val password = passwordEncoder.encode("password");
+        val prepareStatement = connection.prepareStatement("INSERT INTO oauth_client_details " +
+                "    (client_id, client_secret, scope, authorized_grant_types, " +
+                "    web_server_redirect_uri, authorities, access_token_validity, " +
+                "    refresh_token_validity, additional_information, autoapprove) " +
+                "VALUES " +
+                "    ('client', ?, 'read,write', " +
+                "    'password,authorization_code,refresh_token,implicit', 'http://localhost:4200/', null, 3600, 144000, null, ?);")
+        prepareStatement.setString(1, password)
+        prepareStatement.setBoolean(2, true)
+        prepareStatement.executeUpdate()
     }
 }

@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/01-initial/changelog.yaml
   - include:
       file: db/changelog/02-oauth-token-store/changelog.yaml
+  - include:
+      file: db/changelog/03-oauth-clients/changelog.yaml

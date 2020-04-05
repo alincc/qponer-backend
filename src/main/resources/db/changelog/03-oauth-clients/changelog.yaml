@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/03-oauth-clients/tables.yaml
