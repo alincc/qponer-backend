@@ -37,7 +37,7 @@ class CustomUserDetailsService(
 
         val businessOwner = optionalBusinessOwner.get()
         return QponerPrincipal(
-                id = businessOwner.id,
+                id = businessOwner.id!!,
                 name = businessOwner.username,
                 pwd = businessOwner.password,
                 authorityStringList = listOf(QponerPrincipalType.BUSINESS_OWNER.name),
@@ -53,7 +53,7 @@ class CustomUserDetailsService(
 
         val contributor = optionalContributor.get()
         return QponerPrincipal(
-                id = contributor.id,
+                id = contributor.id!!,
                 name = contributor.username,
                 pwd = contributor.password,
                 authorityStringList = listOf(QponerPrincipalType.CONTRIBUTOR.name),

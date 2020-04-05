@@ -30,6 +30,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
 
     implementation("io.jsonwebtoken:jjwt:0.9.1")
+    implementation("org.liquibase:liquibase-core")
+
 
     //	implementation("org.springframework.security.oauth:spring-security-oauth2")
     implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.2.5.RELEASE")
@@ -43,7 +45,8 @@ dependencies {
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    runtimeOnly("com.h2database:h2")
+//    runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.hsqldb:hsqldb")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

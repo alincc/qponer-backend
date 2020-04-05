@@ -10,7 +10,7 @@ import javax.persistence.*
 )
 class Voucher(
         @get:Id
-        @get:GeneratedValue
+        @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SID_VOUCHER_ID_SEQ")
         var id: Long? = null,
 
         @get:ManyToOne

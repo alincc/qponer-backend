@@ -3,7 +3,7 @@ package bg.qponer.qponerbackend
 import bg.qponer.qponerbackend.domain.data.*
 import bg.qponer.qponerbackend.domain.repo.*
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.context.annotation.Profile
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
@@ -11,6 +11,7 @@ import java.util.*
 import javax.annotation.PostConstruct
 
 @Component
+@Profile("!prod")
 class ApplicationStartup(
         @Autowired val businessOwnerRepo: BusinessOwnerRepo,
         @Autowired val contributorRepo: ContributorRepo,

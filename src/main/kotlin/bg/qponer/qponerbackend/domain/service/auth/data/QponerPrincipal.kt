@@ -6,7 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class QponerPrincipal(
-        val id: Long?,
+        val id: Long,
         val name: String,
         @JsonIgnore val pwd: String,
         val type: QponerPrincipalType,

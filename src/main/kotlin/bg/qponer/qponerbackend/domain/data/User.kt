@@ -6,7 +6,7 @@ import javax.persistence.*
 @MappedSuperclass
 abstract class User(
         @get:Id
-        @get:GeneratedValue
+        @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SID_USER_ID_SEQ")
         var id: Long?,
 
         var username: String,

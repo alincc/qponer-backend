@@ -11,14 +11,16 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.provider.token.TokenStore
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
+import javax.sql.DataSource
 
 
 @Configuration
 @EnableAuthorizationServer
 class AuthorizationServerConfiguration(
         @Autowired @Qualifier("authenticationManagerBean") private val authenticationManager: AuthenticationManager,
-        @Autowired private val passwordEncoder: PasswordEncoder
+        @Autowired private val passwordEncoder: PasswordEncoder,
+        @Autowired private val dataSource: DataSource
 ) : AuthorizationServerConfigurerAdapter() {
 
     @Throws(Exception::class)
@@ -42,8 +44,5 @@ class AuthorizationServerConfiguration(
     }
 
     @Bean
-    fun tokenStore(): TokenStore {
-        // TODO not in memory
-        return InMemoryTokenStore()
-    } //
+    fun tokenStore(): TokenStore = JdbcTokenStore(dataSource)
 }

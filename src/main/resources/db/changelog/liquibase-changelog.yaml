@@ -1,0 +1,13 @@
+databaseChangeLog:
+  ###############################################
+  ## To initialize the liquibase.schema variable.
+  ###############################################
+  - property:
+      name: liquibase.schema
+      value: qpon
+      dbms: mysql
+
+  - include:
+      file: db/changelog/01-initial/changelog.yaml
+  - include:
+      file: db/changelog/02-oauth-token-store/changelog.yaml
