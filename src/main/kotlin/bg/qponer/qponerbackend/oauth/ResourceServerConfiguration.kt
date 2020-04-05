@@ -13,7 +13,10 @@ class ResourceServerConfiguration : ResourceServerConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
-                .authorizeRequests().antMatchers("/oauth/token", "/oauth/authorize**", "/public").permitAll()
-                .anyRequest().authenticated()
+                .authorizeRequests().antMatchers("/oauth/token", "/oauth/authorize**", "/public", "/api/test/all").permitAll()
+
+        http.requestMatchers().antMatchers("/api/**")
+                .and().authorizeRequests()
+                .antMatchers("/api/**").access("hasRole('USER')")
     }
 }

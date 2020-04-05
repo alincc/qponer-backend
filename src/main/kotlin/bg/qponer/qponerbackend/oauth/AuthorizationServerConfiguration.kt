@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
@@ -31,6 +30,7 @@ class AuthorizationServerConfiguration(
                 .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT", "USER")
                 .scopes("read", "write")
                 .autoApprove(true)
+                .redirectUris("http://localhost:4040/")
                 .secret(passwordEncoder.encode("password"))
     }
 
