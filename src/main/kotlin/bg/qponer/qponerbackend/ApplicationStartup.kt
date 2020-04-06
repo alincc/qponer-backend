@@ -34,8 +34,8 @@ class ApplicationStartup(
 
         val address = Address(line1 = "Mladost", city = city, country = country, postalCode = "1000", region = "Sofia")
         val businessOwner = BusinessOwner(
-                username = "dakata",
-                password = passwordEncoder.encode("password"),
+                username = "owner",
+                password = passwordEncoder.encode("owner"),
                 firstName = "Danail",
                 lastName = "Danailov",
                 address = address,
@@ -51,8 +51,8 @@ class ApplicationStartup(
         businessOwnerRepo.save(businessOwner)
 
         val contributor = Contributor(
-                username = "pocko",
-                password = passwordEncoder.encode("password"),
+                username = "user",
+                password = passwordEncoder.encode("user"),
                 firstName = "Pocko",
                 lastName = "Pockov",
                 address = address,
