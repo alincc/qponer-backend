@@ -4,12 +4,12 @@ import javax.persistence.*
 
 @Entity
 class City(
-       @get:Id
-       @get:GeneratedValue
-       var id: Long? = null,
+        @get:Id
+        @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SID_CITY_ID_SEQ")
+        var id: Long? = null,
 
-       var name: String,
+        var name: String,
 
-       @get:ManyToOne
-       var country: Country
+        @get:ManyToOne
+        var country: Country
 )

@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: 02-oauth-token-store
+      author: pocko
+      dbms: mysql,hsqldb
+      changes:
+        - createTable:
+            tableName: oauth_access_token
+            columns:
+              - column:
+                  name: authentication_id
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: token_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: token
+                  type: blob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authentication
+                  type: blob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: refresh_token
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: oauth_refresh_token
+            columns:
+              - column:
+                  name: token_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: token
+                  type: blob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authentication
+                  type: blob
+                  constraints:
+                    nullable: false

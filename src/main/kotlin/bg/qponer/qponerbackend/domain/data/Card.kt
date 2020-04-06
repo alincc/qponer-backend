@@ -1,14 +1,11 @@
 package bg.qponer.qponerbackend.domain.data
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.ManyToOne
+import javax.persistence.*
 
 @Entity
 class Card(
         @get:Id
-        @get:GeneratedValue
+        @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SID_CARD_ID_SEQ")
         var id: Long? = null,
 
         var tokenId: String,

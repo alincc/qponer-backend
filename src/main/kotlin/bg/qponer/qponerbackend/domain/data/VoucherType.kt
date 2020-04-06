@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 class VoucherType(
         @get:Id
-        @get:GeneratedValue
+        @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SID_VOUCHER_TYPE_ID_SEQ")
         var id: Long? = null,
 
         @get:Enumerated(EnumType.STRING)
