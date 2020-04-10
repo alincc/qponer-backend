@@ -10,10 +10,8 @@ import bg.qponer.qponerbackend.domain.dto.RankedContributor
 import bg.qponer.qponerbackend.domain.repo.BusinessOwnerRepo
 import bg.qponer.qponerbackend.domain.repo.CityRepo
 import bg.qponer.qponerbackend.domain.repo.CountryRepo
-import bg.qponer.qponerbackend.domain.service.auth.data.QponerPrincipal
 import bg.qponer.qponerbackend.domain.repo.MangoPayRepo
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -80,10 +78,8 @@ class BusinessOwnerService(
                     walletUserId = walletIds.second
             )
 
-    fun getTopContributors(): List<RankedContributor> {
-        val qponerPrincipal = SecurityContextHolder.getContext().authentication.principal as QponerPrincipal
-        val businessOwnerId = qponerPrincipal.id
-        return businessOwnerRepo.getTopContributors(businessOwnerId)
+    fun getTopContributors(ownerId: Long): List<RankedContributor> {
+        return businessOwnerRepo.getTopContributors(ownerId)
     }
 
     private fun BusinessOwner.toResponseBody() =

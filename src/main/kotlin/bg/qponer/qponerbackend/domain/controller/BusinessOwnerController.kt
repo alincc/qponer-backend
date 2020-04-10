@@ -15,12 +15,13 @@ class BusinessOwnerController(
         @Autowired private val voucherService: VoucherService
 ) {
 
-    @PostMapping("/")
+    @PostMapping
     fun create(@Valid @RequestBody body: BusinessOwnerRequestBody) = runServiceMethod {
         businessOwnerService.save(body)
     }
 
-    @GetMapping("/")
+    @PreAuthorize("hasRole('CONTRIBUTOR')")
+    @GetMapping
     fun findAllByFilter(
             @RequestParam(required = false, name = "countryId") countryId: Long?,
             @RequestParam(required = false, name = "cityId") cityId: Long?,
@@ -35,10 +36,10 @@ class BusinessOwnerController(
         )
     }
 
-    @GetMapping("/top-contributors")
-    @PreAuthorize("hasRole('BUSINESS_OWNER')")
-    fun listTopContributors() = runServiceMethod {
-        businessOwnerService.getTopContributors()
+    @PreAuthorize("hasRole('BUSINESS_OWNER') or hasRole('CONTRIBUTOR')")
+    @GetMapping("/{id}/top-contributors")
+    fun listTopContributors(@PathVariable("id") ownerId: Long) = runServiceMethod {
+        businessOwnerService.getTopContributors(ownerId)
     }
 
     @GetMapping("/{id}/vouchers")
