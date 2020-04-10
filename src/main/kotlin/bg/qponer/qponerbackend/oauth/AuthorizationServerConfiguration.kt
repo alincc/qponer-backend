@@ -1,5 +1,6 @@
 package bg.qponer.qponerbackend.oauth
 
+import bg.qponer.qponerbackend.domain.service.auth.CustomUserDetailsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
@@ -20,7 +21,8 @@ import javax.sql.DataSource
 class AuthorizationServerConfiguration(
         @Autowired @Qualifier("authenticationManagerBean") private val authenticationManager: AuthenticationManager,
         @Autowired private val passwordEncoder: PasswordEncoder,
-        @Autowired private val dataSource: DataSource
+        @Autowired private val dataSource: DataSource,
+        @Autowired private val userDetailsService: CustomUserDetailsService
 ) : AuthorizationServerConfigurerAdapter() {
 
     @Throws(Exception::class)
@@ -33,6 +35,7 @@ class AuthorizationServerConfiguration(
         endpoints
                 .authenticationManager(authenticationManager)
                 .tokenStore(tokenStore())
+                .userDetailsService(userDetailsService)
     }
 
     @Bean
