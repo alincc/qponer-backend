@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("/api/v1")
 class ContributorController(
         @Autowired private val contributorService: ContributorService,
         @Autowired private val cardService: CardService,

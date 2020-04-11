@@ -101,7 +101,7 @@ class MangoPayRepo(
         return Wallet().apply {
             Owners = arrayListOf(userId)
             Description = "Wallet for $email"
-            Currency = CurrencyIso.BGN
+            Currency = CurrencyIso.EUR
         }
     }
 
@@ -117,7 +117,7 @@ class MangoPayRepo(
                 PostalCode = address.postalCode
                 Country = CountryIso.valueOf(address.country.code)
             }
-            Birthday = dateOfBirth.timeInMillis
+            Birthday = dateOfBirth.timeInMillis / 1000
             Nationality = CountryIso.valueOf(nationality.code)
             CountryOfResidence = CountryIso.valueOf(countryOfResidence.code)
             Email = username
