@@ -74,20 +74,20 @@ databaseChangeLog:
             constraintName: fk_city_country_id
             validate: true
         - addForeignKeyConstraint:
-            baseTableName: voucher
+            baseTableName: accumulated_value
             baseColumnNames: contributor_id
             referencedTableName: contributor
             referencedColumnNames: id
-            constraintName: fk_voucher_contributor_id
+            constraintName: fk_accumulated_value_contributor_id
             validate: true
         - addForeignKeyConstraint:
-            baseTableName: voucher
+            baseTableName: accumulated_value
             baseColumnNames: owner_id
             referencedTableName: business_owner
             referencedColumnNames: id
-            constraintName: fk_voucher_owner_id
+            constraintName: fk_accumulated_value_owner_id
             validate: true
         - addUniqueContraint:
-            tableName: voucher
+            tableName: accumulated_value
             columnNames: owner_id, contributor_id
-            constraintName: uq_voucher_owner_contributor
+            constraintName: uq_accumulated_value_owner_contributor

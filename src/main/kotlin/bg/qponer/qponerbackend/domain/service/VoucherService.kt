@@ -1,6 +1,6 @@
 package bg.qponer.qponerbackend.domain.service
 
-import bg.qponer.qponerbackend.domain.data.Voucher
+import bg.qponer.qponerbackend.domain.data.AccumulatedValue
 import bg.qponer.qponerbackend.domain.data.VoucherType
 import bg.qponer.qponerbackend.domain.dto.VoucherRequestBody
 import bg.qponer.qponerbackend.domain.dto.VoucherResponseBody
@@ -16,7 +16,7 @@ import javax.transaction.Transactional
 @Service
 class VoucherService(
         @Autowired private val voucherTypeRepo: VoucherTypeRepo,
-        @Autowired private val voucherRepo: VoucherRepo,
+        @Autowired private val accumulatedValueRepo: AccumulatedValueRepo,
         @Autowired private val businessOwnerRepo: BusinessOwnerRepo,
         @Autowired private val contributorRepo: ContributorRepo,
         @Autowired private val cardRepo: CardRepo,
@@ -25,9 +25,9 @@ class VoucherService(
 
     fun findAllTypes() = voucherTypeRepo.findAll().map { it.toResponseBody() }
 
-    fun findAllForOwner(ownerId: Long) = voucherRepo.findByBusinessOwner(ownerId).map { it.toResponseBody() }
+    fun findAllForOwner(ownerId: Long) = accumulatedValueRepo.findByBusinessOwner(ownerId).map { it.toResponseBody() }
 
-    fun findAllForContributor(contributorId: Long) = voucherRepo.findByContributor(contributorId).map { it.toResponseBody() }
+    fun findAllForContributor(contributorId: Long) = accumulatedValueRepo.findByContributor(contributorId).map { it.toResponseBody() }
 
     @Transactional
     fun buyVoucher(body: VoucherRequestBody): VoucherResponseBody {
@@ -44,12 +44,12 @@ class VoucherService(
             throw RuntimeException("Could not process transfer")
         }
 
-        return voucherRepo.findByBusinessOwnerAndContributor(body.businessOwnerId, body.contributorId)
+        return accumulatedValueRepo.findByBusinessOwnerAndContributor(body.businessOwnerId, body.contributorId)
                 .orElse(body.toEntity())
                 .apply {
-                    value += amount
+                    allTimeValue += amount
                 }
-                .let { voucherRepo.save(it) }
+                .let { accumulatedValueRepo.save(it) }
                 .toResponseBody()
     }
 
@@ -62,23 +62,23 @@ class VoucherService(
             )
 
     private fun VoucherRequestBody.toEntity() =
-            Voucher(
+            AccumulatedValue(
                     owner = businessOwnerId.toBusinessOwnerWithId(),
                     contributor = contributorId.toContributorWithId(contributorRepo),
-                    value = BigDecimal.ZERO
+                    allTimeValue = BigDecimal.ZERO
             )
 
     private fun Long.toBusinessOwnerWithId() = businessOwnerRepo.findByIdOrNull(this)
             ?: throw InvalidDataException("Missing owner with id: $this")
 
     private fun Long.toVoucherTypeWithId() = voucherTypeRepo.findByIdOrNull(this)
-            ?: throw InvalidDataException("Invalid Voucher Type with id: $this")
+            ?: throw InvalidDataException("Invalid AccumulatedValue Type with id: $this")
 
-    private fun Voucher.toResponseBody() =
+    private fun AccumulatedValue.toResponseBody() =
             VoucherResponseBody(
                     id!!,
                     owner.businessName,
                     "${contributor.firstName} ${contributor.lastName}",
-                    value
+                    allTimeValue
             )
 }

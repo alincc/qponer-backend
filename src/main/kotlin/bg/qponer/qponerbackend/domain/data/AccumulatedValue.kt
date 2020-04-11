@@ -8,9 +8,9 @@ import javax.persistence.*
         uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("owner_id", "contributor_id"))],
         indexes = [Index(columnList = "owner_id, contributor_id", unique = true)]
 )
-class Voucher(
+class AccumulatedValue(
         @get:Id
-        @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SID_VOUCHER_ID_SEQ")
+        @get:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SID_ACCUMULATED_VALUE_ID_SEQ")
         var id: Long? = null,
 
         @get:ManyToOne
@@ -19,5 +19,7 @@ class Voucher(
         @get:ManyToOne
         var contributor: Contributor,
 
-        var value: BigDecimal
+        var allTimeValue: BigDecimal,
+
+        var availableValue: BigDecimal? = BigDecimal.ZERO
 )

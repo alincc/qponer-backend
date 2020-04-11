@@ -18,7 +18,7 @@ class ApplicationStartup(
         @Autowired val contributorRepo: ContributorRepo,
         @Autowired val cityRepo: CityRepo,
         @Autowired val countryRepo: CountryRepo,
-        @Autowired val voucherRepo: VoucherRepo,
+        @Autowired val accumulatedValueRepo: AccumulatedValueRepo,
         @Autowired val voucherTypeRepo: VoucherTypeRepo,
         @Autowired val passwordEncoder: PasswordEncoder,
         @Autowired val dataSource: DataSource
@@ -81,10 +81,10 @@ class ApplicationStartup(
         val goldVoucher = VoucherType(typeName = VoucherTypeName.GOLD, value = BigDecimal.valueOf(50L))
         voucherTypeRepo.saveAll(listOf(bronzeVoucher, silverVoucher, goldVoucher))
 
-        val vouchers = ArrayList<Voucher>()
-        vouchers.add(Voucher(owner = businessOwner, contributor = contributor1, value = BigDecimal(150)))
-        vouchers.add(Voucher(owner = businessOwner, contributor = contributor, value = BigDecimal(240)))
-        voucherRepo.saveAll(vouchers)
+        val vouchers = ArrayList<AccumulatedValue>()
+        vouchers.add(AccumulatedValue(owner = businessOwner, contributor = contributor1, allTimeValue = BigDecimal(150)))
+        vouchers.add(AccumulatedValue(owner = businessOwner, contributor = contributor, allTimeValue = BigDecimal(240)))
+        accumulatedValueRepo.saveAll(vouchers)
 
 //        createVouchers(contributor, businessOwner, arrayOf(goldVoucher, goldVoucher));
 //        createVouchers(contributor1, businessOwner, arrayOf(silverVoucher, silverVoucher, silverVoucher));
