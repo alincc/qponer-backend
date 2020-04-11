@@ -87,6 +87,6 @@ fabric.properties
 .idea/httpRequests
 
 # General
-build/
+build/*
 ./gradle
 .DS_Store
