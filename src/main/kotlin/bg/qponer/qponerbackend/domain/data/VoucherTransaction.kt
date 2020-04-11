@@ -1,7 +1,11 @@
 package bg.qponer.qponerbackend.domain.data
 
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
+import org.springframework.data.annotation.LastModifiedDate
+
 import java.math.BigDecimal
-import java.util.*
+import java.time.OffsetDateTime
 import javax.persistence.*
 
 @Entity
@@ -23,12 +27,17 @@ class VoucherTransaction(
         @get:ManyToOne
         var voucherType: VoucherType,
 
-        // TODO: find annotation for auto set current datetime on create
-        var createdAt: Date,
+        @CreationTimestamp
+        @Column(name = "created_at", insertable = false, updatable = false)
+        var createdAt: OffsetDateTime,
 
+        @UpdateTimestamp
+        @LastModifiedDate
+        @Column(name = "updated_at")
+        var updatedAt: OffsetDateTime,
 
-        var updatedAt: Date,
+        var status: TransactionStatus,
 
-        var status: TransactionStatus
+        var businessWithdrawTransactionId: String?
 )
 // TODO: create revert transaction and bussines withdraw transaction

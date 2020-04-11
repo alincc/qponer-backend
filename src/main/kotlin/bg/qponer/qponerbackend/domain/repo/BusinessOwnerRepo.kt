@@ -27,9 +27,8 @@ interface BusinessOwnerRepo
 
     fun findByUsername(username: String): Optional<BusinessOwner>
 
-    @Query("select new bg.qponer.qponerbackend.domain.dto.RankedContributor(concat(v.contributor.firstName, concat(' ', v.contributor.lastName)) , sum(v.value)) from AccumulatedValue v " +
+    @Query("select new bg.qponer.qponerbackend.domain.dto.RankedContributor(concat(v.contributor.firstName, concat(' ', v.contributor.lastName)) , v.allTimeValue) from AccumulatedValue v " +
             "where v.owner.id = :ownerId " +
-            "group by v.contributor.username " +
-            "order by sum(v.value) desc")
+            "order by v.allTimeValue desc")
     fun getTopContributors(@Param("ownerId") ownerId: Long?): List<RankedContributor>
 }

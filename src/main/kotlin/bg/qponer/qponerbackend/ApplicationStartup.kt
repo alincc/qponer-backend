@@ -81,7 +81,21 @@ class ApplicationStartup(
                 walletUserId = "1",
                 walletId = "1"
         )
-        contributorRepo.saveAll(listOf(contributor, contributor1))
+        val contributor2 = Contributor(
+                username = "pocko2123",
+                password = passwordEncoder.encode("password"),
+                email = "pocko2123@mail.com",
+                phone = "654321123",
+                firstName = "Pocko2123",
+                lastName = "Pockov123",
+                address = address,
+                dateOfBirth = Calendar.getInstance(),
+                nationality = country,
+                countryOfResidence = country,
+                walletUserId = "1",
+                walletId = "1"
+        )
+        contributorRepo.saveAll(listOf(contributor, contributor1, contributor2))
 
         val admin = QponerAdmin(
                 username = "adm1n",
@@ -97,8 +111,8 @@ class ApplicationStartup(
         voucherTypeRepo.saveAll(listOf(bronzeVoucher, silverVoucher, goldVoucher))
 
         val vouchers = ArrayList<AccumulatedValue>()
-        vouchers.add(AccumulatedValue(owner = businessOwner, contributor = contributor1, allTimeValue = BigDecimal(150)))
-        vouchers.add(AccumulatedValue(owner = businessOwner, contributor = contributor, allTimeValue = BigDecimal(240)))
+        vouchers.add(AccumulatedValue(owner = businessOwner, contributor = contributor1, allTimeValue = BigDecimal(150), pendingValue =  BigDecimal(150)))
+        vouchers.add(AccumulatedValue(owner = businessOwner, contributor = contributor, allTimeValue = BigDecimal(240), pendingValue =  BigDecimal(240)))
         accumulatedValueRepo.saveAll(vouchers)
 
 //        createVouchers(contributor, businessOwner, arrayOf(goldVoucher, goldVoucher));

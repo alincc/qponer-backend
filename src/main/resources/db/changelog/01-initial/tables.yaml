@@ -176,10 +176,16 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: all_timevalue
+                  name: all_time_value
                   type: numeric(19,2)
               - column:
                   name: available_value
+                  type: numeric(19,2)
+              - column:
+                  name: spend_value
+                  type: numeric(19,2)
+              - column:
+                  name: pending_value
                   type: numeric(19,2)
               - column:
                   name: contributor_id
@@ -225,6 +231,9 @@ databaseChangeLog:
                   type: bigint
               - column:
                   name: external_id
+                  type: varchar(255)
+              - column:
+                  name: business_withdraw_transaction_id
                   type: varchar(255)
               - column:
                   name: voucher_type

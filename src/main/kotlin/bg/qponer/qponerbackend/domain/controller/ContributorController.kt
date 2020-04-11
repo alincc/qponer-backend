@@ -46,10 +46,19 @@ class ContributorController(
         cardService.completeRegistration(cardRegistrationId, contributorId, body)
     }
 
+    // TODO: change path
     @GetMapping("/contributors/{id}/vouchers")
     fun findVouchersForContributor(
             @PathVariable("id") contributorId: Long
     ) = runServiceMethod {
         voucherService.findAllForContributor(contributorId)
+    }
+
+    // TODO: change path
+    @GetMapping("/contributors/{id}/vouchers/transactions")
+    fun findVouchersTransactionsForContributor(
+            @PathVariable("id") contributorId: Long
+    ) = runServiceMethod {
+        voucherService.findAllTransactionsForContributor(contributorId)
     }
 }

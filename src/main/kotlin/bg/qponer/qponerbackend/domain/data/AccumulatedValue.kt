@@ -21,5 +21,9 @@ class AccumulatedValue(
 
         var allTimeValue: BigDecimal,
 
-        var availableValue: BigDecimal? = BigDecimal.ZERO
+        var availableValue: BigDecimal? = BigDecimal.ZERO,
+
+        var spendValue: BigDecimal? = BigDecimal.ZERO,
+
+        var pendingValue: BigDecimal
 )
