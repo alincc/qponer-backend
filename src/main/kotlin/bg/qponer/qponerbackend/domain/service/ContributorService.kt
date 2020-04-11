@@ -37,7 +37,7 @@ class ContributorService(
                 body.dateOfBirth,
                 nationality,
                 countryOfResidence,
-                body.username
+                body.email
         )
 
         return createContributor(body, address, nationality, countryOfResidence, walletIds)
