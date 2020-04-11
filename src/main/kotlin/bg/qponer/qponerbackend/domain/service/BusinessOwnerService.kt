@@ -64,6 +64,8 @@ class BusinessOwnerService(
             BusinessOwner(
                     username = body.username,
                     password = passwordEncoder.encode(body.password),
+                    email = body.email,
+                    phone = body.phone,
                     avatarUrl = body.avatarUrl,
                     firstName = body.firstName,
                     lastName = body.lastName,

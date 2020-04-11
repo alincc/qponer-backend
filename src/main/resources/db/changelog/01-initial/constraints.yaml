@@ -40,6 +40,27 @@ databaseChangeLog:
             validate: true
         - addForeignKeyConstraint:
             baseTableName: contributor
+            baseColumnNames: id
+            referencedTableName: registered_user
+            referencedColumnNames: id
+            constraintName: fk_contributor_id_user_id
+            validate: true
+        - addForeignKeyConstraint:
+            baseTableName: business_owner
+            baseColumnNames: id
+            referencedTableName: registered_user
+            referencedColumnNames: id
+            constraintName: fk_business_owner_id_user_id
+            validate: true
+        - addForeignKeyConstraint:
+            baseTableName: qponer_admin
+            baseColumnNames: id
+            referencedTableName: registered_user
+            referencedColumnNames: id
+            constraintName: fk_admin_user_id_user_id
+            validate: true
+        - addForeignKeyConstraint:
+            baseTableName: contributor
             baseColumnNames: country_id
             referencedTableName: country
             referencedColumnNames: id

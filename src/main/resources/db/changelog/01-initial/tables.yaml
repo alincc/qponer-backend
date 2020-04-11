@@ -38,12 +38,6 @@ databaseChangeLog:
                   name: last_name
                   type: varchar(255)
               - column:
-                  name: password
-                  type: varchar(255)
-              - column:
-                  name: username
-                  type: varchar(255)
-              - column:
                   name: wallet_id
                   type: varchar(255)
               - column:
@@ -138,12 +132,6 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: last_name
-                  type: varchar(255)
-              - column:
-                  name: username
-                  type: varchar(255)
-              - column:
-                  name: password
                   type: varchar(255)
               - column:
                   name: wallet_id
@@ -250,3 +238,41 @@ databaseChangeLog:
               - column:
                   name: status
                   type: int
+        - createTable:
+            tableName: registered_user
+            columns:
+              - column:
+                  name: ID
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: qponer_admin
+            columns:
+              - column:
+                  name: ID
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
