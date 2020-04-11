@@ -167,7 +167,7 @@ databaseChangeLog:
                   name: name
                   type: varchar(255)
         - createTable:
-            tableName: voucher
+            tableName: accumulated_value
             columns:
               - column:
                   name: ID
@@ -176,7 +176,16 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: value
+                  name: all_time_value
+                  type: numeric(19,2)
+              - column:
+                  name: available_value
+                  type: numeric(19,2)
+              - column:
+                  name: spend_value
+                  type: numeric(19,2)
+              - column:
+                  name: pending_value
                   type: numeric(19,2)
               - column:
                   name: contributor_id
@@ -199,6 +208,45 @@ databaseChangeLog:
               - column:
                   name: value
                   type: numeric(19,2)
+        - createTable:
+            tableName: voucher_transaction
+            columns:
+              - column:
+                  name: ID
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: value
+                  type: numeric(19,2)
+              - column:
+                  name: contributor_id
+                  type: bigint
+              - column:
+                  name: owner_id
+                  type: bigint
+              - column:
+                  name: voucher_type_id
+                  type: bigint
+              - column:
+                  name: external_id
+                  type: varchar(255)
+              - column:
+                  name: business_withdraw_transaction_id
+                  type: varchar(255)
+              - column:
+                  name: voucher_type
+                  type: bigint
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: status
+                  type: int
         - createTable:
             tableName: registered_user
             columns:

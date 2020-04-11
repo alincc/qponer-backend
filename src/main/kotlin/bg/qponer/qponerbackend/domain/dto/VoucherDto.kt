@@ -20,5 +20,8 @@ data class VoucherResponseBody(
         val id: Long,
         val businessName: String,
         val contributorName: String,
-        val value: BigDecimal
+        val value: BigDecimal,
+        val pendingValue: BigDecimal,
+        val spendValue: BigDecimal?,
+        val availableValue: BigDecimal?
 )
