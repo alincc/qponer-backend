@@ -48,6 +48,8 @@ class ContributorService(
     private fun createContributor(body: ContributorRequestBody, address: Address, nationality: Country, countryOfResidence: Country, walletIds: Pair<String, String>) = Contributor(
             username = body.username,
             password = passwordEncoder.encode(body.password),
+            email = body.email,
+            phone = body.phone,
             avatarUrl = body.avatarUrl,
             firstName = body.firstName,
             lastName = body.lastName,

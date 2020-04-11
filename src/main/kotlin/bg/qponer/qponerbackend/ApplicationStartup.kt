@@ -16,6 +16,7 @@ import javax.sql.DataSource
 class ApplicationStartup(
         @Autowired val businessOwnerRepo: BusinessOwnerRepo,
         @Autowired val contributorRepo: ContributorRepo,
+        @Autowired val adminRepo: AdminRepo,
         @Autowired val cityRepo: CityRepo,
         @Autowired val countryRepo: CountryRepo,
         @Autowired val voucherRepo: VoucherRepo,
@@ -36,6 +37,8 @@ class ApplicationStartup(
         val businessOwner = BusinessOwner(
                 username = "owner",
                 password = passwordEncoder.encode("owner"),
+                email = "dakata@mail.com",
+                phone = "123456",
                 firstName = "Danail",
                 lastName = "Danailov",
                 address = address,
@@ -53,6 +56,8 @@ class ApplicationStartup(
         val contributor = Contributor(
                 username = "user",
                 password = passwordEncoder.encode("user"),
+                email = "pocko@mail.com",
+                phone = "234567",
                 firstName = "Pocko",
                 lastName = "Pockov",
                 address = address,
@@ -65,6 +70,8 @@ class ApplicationStartup(
         val contributor1 = Contributor(
                 username = "pocko2",
                 password = passwordEncoder.encode("password"),
+                email = "pocko2@mail.com",
+                phone = "654321",
                 firstName = "Pocko2",
                 lastName = "Pockov",
                 address = address,
@@ -75,6 +82,14 @@ class ApplicationStartup(
                 walletId = "1"
         )
         contributorRepo.saveAll(listOf(contributor, contributor1))
+
+        val admin = QponerAdmin(
+                username = "adm1n",
+                password = passwordEncoder.encode("w0rdp4ss"),
+                email = "pocko123@123.com",
+                phone = "1982352"
+        )
+        adminRepo.save(admin)
 
         val bronzeVoucher = VoucherType(typeName = VoucherTypeName.BRONZE, value = BigDecimal.valueOf(10L))
         val silverVoucher = VoucherType(typeName = VoucherTypeName.SILVER, value = BigDecimal.valueOf(20L))
