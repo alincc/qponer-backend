@@ -5,6 +5,8 @@ import java.util.*
 data class ContributorRequestBody(
         val username: String,
         val password: String,
+        val email: String,
+        val phone: String,
         val firstName: String,
         val lastName: String,
         val avatarUrl: String?,
