@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+.gradle/
+.idea/
+
 # BlueJ files
 *.ctxt
 
@@ -87,6 +90,6 @@ fabric.properties
 .idea/httpRequests
 
 # General
-build/
+build/*
 ./gradle
 .DS_Store
