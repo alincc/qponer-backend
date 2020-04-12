@@ -5,8 +5,8 @@ import javax.persistence.*
 
 @Entity
 @Table(
-        uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("owner_id", "contributor_id"))],
-        indexes = [Index(columnList = "owner_id, contributor_id", unique = true)]
+        uniqueConstraints = [UniqueConstraint(columnNames = arrayOf("business_id", "contributor_id"))],
+        indexes = [Index(columnList = "business_id, contributor_id", unique = true)]
 )
 class AccumulatedValue(
         @get:Id
@@ -14,7 +14,7 @@ class AccumulatedValue(
         var id: Long? = null,
 
         @get:ManyToOne
-        var owner: BusinessOwner,
+        var business: Business,
 
         @get:ManyToOne
         var contributor: Contributor,

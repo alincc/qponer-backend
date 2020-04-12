@@ -1,6 +1,6 @@
 package bg.qponer.qponerbackend.domain.service.auth
 
-import bg.qponer.qponerbackend.domain.data.BusinessOwner
+import bg.qponer.qponerbackend.domain.data.Business
 import bg.qponer.qponerbackend.domain.data.Contributor
 import bg.qponer.qponerbackend.domain.data.QponerAdmin
 import bg.qponer.qponerbackend.domain.data.User
@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomUserDetailsService(
-//        @Autowired private val businessOwnerRepo: BusinessOwnerRepo,
-//        @Autowired private val contributorRepo: ContributorRepo
         @Autowired private val userRepo: UserRepo
 ) : UserDetailsService {
 
@@ -40,7 +38,7 @@ class CustomUserDetailsService(
     private fun getUserType(user: User): QponerPrincipalType {
         if (Contributor::class.java.isAssignableFrom(user.javaClass)) {
             return QponerPrincipalType.CONTRIBUTOR
-        } else if (BusinessOwner::class.java.isAssignableFrom(user.javaClass)) {
+        } else if (Business::class.java.isAssignableFrom(user.javaClass)) {
             return QponerPrincipalType.BUSINESS_OWNER
         } else if (QponerAdmin::class.java.isAssignableFrom(user.javaClass)) {
             return QponerPrincipalType.ADMIN

@@ -5,7 +5,7 @@ databaseChangeLog:
       dbms: mysql,hsqldb
       changes:
         - createTable:
-            tableName: business_owner
+            tableName: business
             columns:
               - column:
                   name: ID
@@ -13,6 +13,12 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
+              - column:
+                  name: logo_url
+                  type: varchar(255)
+              - column:
+                  name: picture_url
+                  type: varchar(255)
               - column:
                   name: line1
                   type: varchar(255)
@@ -26,44 +32,47 @@ databaseChangeLog:
                   name: region
                   type: varchar(255)
               - column:
-                  name: avatar_url
-                  type: varchar(255)
-              - column:
-                  name: date_of_birth
-                  type: date
-              - column:
-                  name: first_name
-                  type: varchar(255)
-              - column:
-                  name: last_name
-                  type: varchar(255)
-              - column:
-                  name: wallet_id
-                  type: varchar(255)
-              - column:
-                  name: wallet_user_id
-                  type: varchar(255)
-              - column:
-                  name: business_description
-                  type: varchar(255)
-              - column:
-                  name: business_name
-                  type: varchar(255)
-              - column:
-                  name: type
-                  type: integer
-              - column:
                   name: city_id
                   type: bigint
               - column:
                   name: country_id
                   type: bigint
               - column:
-                  name: country_of_residence_id
+                  name: type
+                  type: varchar(255)
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: additional_benefits
+                  type: text
+              - column:
+                  name: website_url
+                  type: varchar(255)
+              - column:
+                  name: legal_representative_first_name
+                  type: varchar(255)
+              - column:
+                  name: legal_representative_last_name
+                  type: varchar(255)
+              - column:
+                  name: legal_representative_date_of_birth
+                  type: date
+              - column:
+                  name: legal_representative_nationality_id
                   type: bigint
               - column:
-                  name: nationality_id
+                  name: legal_representative_country_of_residence_id
                   type: bigint
+              - column:
+                  name: wallet_user_id
+                  type: varchar(255)
+              - column:
+                  name: wallet_id
+                  type: varchar(255)
         - createTable:
             tableName: card
             columns:
@@ -191,7 +200,7 @@ databaseChangeLog:
                   name: contributor_id
                   type: bigint
               - column:
-                  name: owner_id
+                  name: business_id
                   type: bigint
         - createTable:
             tableName: voucher_type
@@ -224,7 +233,7 @@ databaseChangeLog:
                   name: contributor_id
                   type: bigint
               - column:
-                  name: owner_id
+                  name: business_id
                   type: bigint
               - column:
                   name: voucher_type_id

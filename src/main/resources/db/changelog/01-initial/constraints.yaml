@@ -4,32 +4,32 @@ databaseChangeLog:
       author: pocko
       changes:
         - addForeignKeyConstraint:
-            baseTableName: business_owner
+            baseTableName: business
             baseColumnNames: city_id
             referencedTableName: city
             referencedColumnNames: id
-            constraintName: fk_business_owner_city_id
+            constraintName: fk_business_city_id
             validate: true
         - addForeignKeyConstraint:
-            baseTableName: business_owner
+            baseTableName: business
             baseColumnNames: country_id
             referencedTableName: country
             referencedColumnNames: id
-            constraintName: fk_business_owner_country_id
+            constraintName: fk_business_country_id
             validate: true
         - addForeignKeyConstraint:
-            baseTableName: business_owner
-            baseColumnNames: country_of_residence_id
+            baseTableName: business
+            baseColumnNames: legal_representative_country_of_residence_id
             referencedTableName: country
             referencedColumnNames: id
-            constraintName: fk_business_owner_country_of_residence_id
+            constraintName: fk_business_lp_country_of_residence_id
             validate: true
         - addForeignKeyConstraint:
-            baseTableName: business_owner
-            baseColumnNames: nationality_id
+            baseTableName: business
+            baseColumnNames: legal_representative_nationality_id
             referencedTableName: country
             referencedColumnNames: id
-            constraintName: fk_business_owner_nationality_id
+            constraintName: fk_business_lp_nationality_id
             validate: true
         - addForeignKeyConstraint:
             baseTableName: contributor
@@ -46,11 +46,11 @@ databaseChangeLog:
             constraintName: fk_contributor_id_user_id
             validate: true
         - addForeignKeyConstraint:
-            baseTableName: business_owner
+            baseTableName: business
             baseColumnNames: id
             referencedTableName: registered_user
             referencedColumnNames: id
-            constraintName: fk_business_owner_id_user_id
+            constraintName: fk_business_id_user_id
             validate: true
         - addForeignKeyConstraint:
             baseTableName: qponer_admin
@@ -103,12 +103,12 @@ databaseChangeLog:
             validate: true
         - addForeignKeyConstraint:
             baseTableName: accumulated_value
-            baseColumnNames: owner_id
-            referencedTableName: business_owner
+            baseColumnNames: business_id
+            referencedTableName: business
             referencedColumnNames: id
-            constraintName: fk_accumulated_value_owner_id
+            constraintName: fk_accumulated_value_business_id
             validate: true
         - addUniqueContraint:
             tableName: accumulated_value
-            columnNames: owner_id, contributor_id
-            constraintName: uq_accumulated_value_owner_contributor
+            columnNames: business_id, contributor_id
+            constraintName: uq_accumulated_value_business_contributor

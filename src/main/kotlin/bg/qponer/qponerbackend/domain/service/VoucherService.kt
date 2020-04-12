@@ -9,28 +9,25 @@ import bg.qponer.qponerbackend.domain.dto.VoucherRequestBody
 import bg.qponer.qponerbackend.domain.dto.VoucherResponseBody
 import bg.qponer.qponerbackend.domain.dto.VoucherTypeResponseBody
 import bg.qponer.qponerbackend.domain.repo.*
-
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-
-import java.lang.RuntimeException
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import javax.transaction.Transactional
 
 @Service
 class VoucherService(
-        @Autowired private val voucherTypeRepo: VoucherTypeRepo,
         @Autowired private val accumulatedValueRepo: AccumulatedValueRepo,
-        @Autowired private val businessOwnerRepo: BusinessOwnerRepo,
+        @Autowired private val voucherTypeRepo: VoucherTypeRepo,
+        @Autowired private val businessRepo: BusinessRepo,
         @Autowired private val contributorRepo: ContributorRepo,
         @Autowired private val voucherTransactionRepo: VoucherTransactionRepo,
         @Autowired private val cardRepo: CardRepo,
         @Autowired private val mangoPayRepo: MangoPayRepo
 ) {
 
-    fun findAllTypes() = voucherTypeRepo.findAll().map { it.toResponseBody() }
+    fun findAllTypes() = accumulatedValueRepo.findAll().map { it.toResponseBody() }
 
     fun findAllForOwner(ownerId: Long) = accumulatedValueRepo.findByBusinessOwner(ownerId).map { it.toResponseBody() }
 
@@ -41,16 +38,16 @@ class VoucherService(
     @Transactional
     fun buyVoucher(body: VoucherRequestBody): VoucherResponseBody {
         val contributor = body.contributorId.toContributorWithId(contributorRepo)
-        val owner = body.businessOwnerId.toBusinessOwnerWithId()
+        val owner = body.businessId.toBusinessWithId()
         val card = cardRepo.findByIdOrNull(body.cardId)
                 ?: throw InvalidDataException("Missing card with id: ${body.cardId}")
         val amount = body.voucherTypeId.toVoucherTypeWithId().value
         val transaction = VoucherTransaction(
-                owner = owner,
+                business = owner,
                 contributor = contributor,
-                value =  amount,
+                value = amount,
                 externalId = "external-transaction-id",
-                voucherType=  voucherTypeRepo.getOne(body.voucherTypeId),
+                voucherType = voucherTypeRepo.getOne(body.voucherTypeId),
                 status = TransactionStatus.CREATED,
                 createdAt = OffsetDateTime.now(),
                 updatedAt = OffsetDateTime.now(),
@@ -70,7 +67,7 @@ class VoucherService(
 
         transaction.status = TransactionStatus.COMPLETED
         voucherTransactionRepo.save(transaction)
-        return accumulatedValueRepo.findByBusinessOwnerAndContributor(body.businessOwnerId, body.contributorId)
+        return accumulatedValueRepo.findByBusinessOwnerAndContributor(body.businessId, body.contributorId)
                 .orElse(body.toEntity())
                 .apply {
                     allTimeValue += amount
@@ -90,13 +87,13 @@ class VoucherService(
 
     private fun VoucherRequestBody.toEntity() =
             AccumulatedValue(
-                    owner = businessOwnerId.toBusinessOwnerWithId(),
+                    business = businessId.toBusinessWithId(),
                     contributor = contributorId.toContributorWithId(contributorRepo),
                     allTimeValue = BigDecimal.ZERO,
                     pendingValue = BigDecimal.ZERO
             )
 
-    private fun Long.toBusinessOwnerWithId() = businessOwnerRepo.findByIdOrNull(this)
+    private fun Long.toBusinessWithId() = businessRepo.findByIdOrNull(this)
             ?: throw InvalidDataException("Missing owner with id: $this")
 
     private fun Long.toVoucherTypeWithId() = voucherTypeRepo.findByIdOrNull(this)
@@ -105,7 +102,7 @@ class VoucherService(
     private fun AccumulatedValue.toResponseBody() =
             VoucherResponseBody(
                     id!!,
-                    owner.businessName,
+                    business.name,
                     "${contributor.firstName} ${contributor.lastName}",
                     allTimeValue,
                     pendingValue,
@@ -116,9 +113,9 @@ class VoucherService(
     private fun VoucherTransaction.toTrnHistoryResponseBody() =
             TransactionResponseBody(
                     id!!,
-                    owner.type,
-                    owner.businessName,
-                    owner.businessDescription,
+                    business.type,
+                    business.name,
+                    business.description,
                     "${contributor.firstName} ${contributor.lastName}",
                     voucherType,
                     createdAt
