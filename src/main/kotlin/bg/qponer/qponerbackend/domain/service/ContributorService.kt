@@ -30,7 +30,7 @@ class ContributorService(
         val nationality = body.nationalityCountryId.toCountryWithId(countryRepo)
         val countryOfResidence = body.residenceCountryId.toCountryWithId(countryRepo)
 
-        val walletIds = mangoPayRepo.createUser(
+        val walletIds = mangoPayRepo.createNaturalUser(
                 body.firstName,
                 body.lastName,
                 address,

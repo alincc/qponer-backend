@@ -6,9 +6,7 @@ import bg.qponer.qponerbackend.domain.data.Country
 import com.mangopay.MangoPayApi
 import com.mangopay.core.Money
 import com.mangopay.core.enumerations.*
-import com.mangopay.entities.PayIn
-import com.mangopay.entities.UserNatural
-import com.mangopay.entities.Wallet
+import com.mangopay.entities.*
 import com.mangopay.entities.subentities.PayInExecutionDetailsDirect
 import com.mangopay.entities.subentities.PayInPaymentDetailsCard
 import org.springframework.stereotype.Repository
@@ -20,7 +18,7 @@ class MangoPayRepo(
         private val api: MangoPayApi
 ) {
 
-    fun createUser(
+    fun createNaturalUser(
             firstName: String,
             lastName: String,
             address: Address,
@@ -28,10 +26,46 @@ class MangoPayRepo(
             nationality: Country,
             countryOfResidence: Country,
             email: String
-    ): Pair<String, String> {
-        val user = createMangoPayUser(firstName, lastName, address, dateOfBirth, nationality, countryOfResidence, email)
+    ): Pair<String, String> =
+            persistUser(
+                    createMangoPayUser(
+                            firstName,
+                            lastName,
+                            address,
+                            dateOfBirth,
+                            nationality,
+                            countryOfResidence,
+                            email
+                    )
+            )
+
+
+    fun createLegalUser(
+            headquartersAddress: Address,
+            name: String,
+            legalRepresentativeDateOfBirth: Calendar,
+            legalRepresentativeCountryOfResidence: Country,
+            legalRepresentativeNationality: Country,
+            legalRepresentativeFirstName: String,
+            legalRepresentativeLastName: String,
+            email: String
+    ): Pair<String, String> =
+            persistUser(
+                    createMangoPayLegalUser(
+                            headquartersAddress,
+                            name,
+                            legalRepresentativeDateOfBirth,
+                            legalRepresentativeCountryOfResidence,
+                            legalRepresentativeNationality,
+                            legalRepresentativeFirstName,
+                            legalRepresentativeLastName,
+                            email
+                    )
+            )
+
+    private fun persistUser(user: User): Pair<String, String> {
         val userId = api.Users.create(user).Id
-        val walletId = api.Wallets.create(createWallet(userId, email)).Id
+        val walletId = api.Wallets.create(createWallet(userId, user.Email)).Id
         return Pair(userId, walletId)
     }
 
@@ -109,20 +143,58 @@ class MangoPayRepo(
         return UserNatural().apply {
             FirstName = firstName
             LastName = lastName
-            Address = com.mangopay.core.Address().apply {
-                AddressLine1 = address.line1
-                AddressLine2 = address.line2
-                City = address.city.name
-                Region = address.region
-                PostalCode = address.postalCode
-                Country = CountryIso.valueOf(address.country.code)
-            }
-            Birthday = dateOfBirth.timeInMillis / 1000
+            Address = address.toMangoPayAddress()
+            Birthday = dateOfBirth.toMangoPayBirthday()
             Nationality = CountryIso.valueOf(nationality.code)
             CountryOfResidence = CountryIso.valueOf(countryOfResidence.code)
             Email = username
         }
     }
+
+    private fun createMangoPayLegalUser(
+            headquartersAddress: Address,
+            name: String,
+            legalRepresentativeDateOfBirth: Calendar,
+            legalRepresentativeCountryOfResidence: Country,
+            legalRepresentativeNationality: Country,
+            legalRepresentativeFirstName: String,
+            legalRepresentativeLastName: String,
+            email: String
+    ): UserLegal {
+        return UserLegal().apply {
+            LegalPersonType = com.mangopay.core.enumerations.LegalPersonType.BUSINESS
+            HeadquartersAddress = headquartersAddress.toMangoPayAddress()
+            Name = name
+            LegalRepresentativeBirthday = legalRepresentativeDateOfBirth.toMangoPayBirthday()
+            LegalRepresentativeCountryOfResidence = CountryIso.valueOf(legalRepresentativeCountryOfResidence.code)
+            LegalRepresentativeNationality = CountryIso.valueOf(legalRepresentativeNationality.code)
+            LegalRepresentativeFirstName = legalRepresentativeFirstName
+            LegalRepresentativeLastName = legalRepresentativeLastName
+            Email = email
+        }
+    }
+
+    private fun Address.toMangoPayAddress() = com.mangopay.core.Address().apply {
+        AddressLine1 = line1
+        AddressLine2 = line2
+        City = city.name
+        Region = region
+        PostalCode = postalCode
+        Country = CountryIso.valueOf(country.code)
+    }
+
+    private fun Calendar.toMangoPayBirthday() =
+            Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                    .apply {
+                        set(
+                                this@toMangoPayBirthday.get(Calendar.YEAR),
+                                this@toMangoPayBirthday.get(Calendar.MONTH),
+                                this@toMangoPayBirthday.get(Calendar.DAY_OF_MONTH),
+                                0,
+                                0,
+                                0
+                        )
+                    }.timeInMillis / 1000
 
     companion object {
         private val FEE_PERCENT = BigDecimal(0.025)

@@ -10,14 +10,14 @@ import java.util.*
 @Repository
 interface AccumulatedValueRepo : JpaRepository<AccumulatedValue, Long> {
 
-    @Query("select v from AccumulatedValue v where v.owner.id = :ownerId and v.contributor.id = :contributorId")
+    @Query("select v from AccumulatedValue v where v.business.id = :businessId and v.contributor.id = :contributorId")
     fun findByBusinessOwnerAndContributor(
-            @Param("ownerId") ownerId: Long,
+            @Param("businessId") ownerId: Long,
             @Param("contributorId") contributorId: Long
     ): Optional<AccumulatedValue>
 
-    @Query("select v from AccumulatedValue v where v.owner.id = :ownerId")
-    fun findByBusinessOwner(@Param("ownerId") ownerId: Long): List<AccumulatedValue>
+    @Query("select v from AccumulatedValue v where v.business.id = :businessId")
+    fun findByBusinessOwner(@Param("businessId") businessId: Long): List<AccumulatedValue>
 
     @Query("select v from AccumulatedValue v where v.contributor.id = :contributorId")
     fun findByContributor(@Param("contributorId") contributorId: Long): List<AccumulatedValue>

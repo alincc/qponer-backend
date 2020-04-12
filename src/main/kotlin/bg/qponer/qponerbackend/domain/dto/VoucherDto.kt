@@ -10,7 +10,7 @@ data class VoucherTypeResponseBody(
 )
 
 data class VoucherRequestBody(
-        val businessOwnerId: Long,
+        val businessId: Long,
         val contributorId: Long,
         val cardId: Long,
         val voucherTypeId: Long

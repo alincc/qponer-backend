@@ -14,7 +14,7 @@ import javax.sql.DataSource
 @Component
 @Profile("dev")
 class ApplicationStartup(
-        @Autowired val businessOwnerRepo: BusinessOwnerRepo,
+        @Autowired val businessRepo: BusinessRepo,
         @Autowired val contributorRepo: ContributorRepo,
         @Autowired val adminRepo: AdminRepo,
         @Autowired val cityRepo: CityRepo,
@@ -34,24 +34,6 @@ class ApplicationStartup(
         cityRepo.save(city);
 
         val address = Address(line1 = "Mladost", city = city, country = country, postalCode = "1000", region = "Sofia")
-        val businessOwner = BusinessOwner(
-                username = "owner",
-                password = passwordEncoder.encode("owner"),
-                email = "dakata@mail.com",
-                phone = "123456",
-                firstName = "Danail",
-                lastName = "Danailov",
-                address = address,
-                dateOfBirth = Calendar.getInstance(),
-                nationality = country,
-                countryOfResidence = country,
-                walletUserId = "1",
-                walletId = "1",
-                type = BusinessType.BAR,
-                businessName = "Masterpiece",
-                businessDescription = "le chef deuvre"
-        )
-        businessOwnerRepo.save(businessOwner)
 
         val contributor = Contributor(
                 username = "user",
@@ -109,11 +91,6 @@ class ApplicationStartup(
         val silverVoucher = VoucherType(typeName = VoucherTypeName.SILVER, value = BigDecimal.valueOf(20L))
         val goldVoucher = VoucherType(typeName = VoucherTypeName.GOLD, value = BigDecimal.valueOf(50L))
         voucherTypeRepo.saveAll(listOf(bronzeVoucher, silverVoucher, goldVoucher))
-
-        val vouchers = ArrayList<AccumulatedValue>()
-        vouchers.add(AccumulatedValue(owner = businessOwner, contributor = contributor1, allTimeValue = BigDecimal(150), pendingValue =  BigDecimal(150)))
-        vouchers.add(AccumulatedValue(owner = businessOwner, contributor = contributor, allTimeValue = BigDecimal(240), pendingValue =  BigDecimal(240)))
-        accumulatedValueRepo.saveAll(vouchers)
 
 //        createVouchers(contributor, businessOwner, arrayOf(goldVoucher, goldVoucher));
 //        createVouchers(contributor1, businessOwner, arrayOf(silverVoucher, silverVoucher, silverVoucher));

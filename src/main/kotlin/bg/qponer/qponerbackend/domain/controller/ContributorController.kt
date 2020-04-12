@@ -6,6 +6,7 @@ import bg.qponer.qponerbackend.domain.service.CardService
 import bg.qponer.qponerbackend.domain.service.ContributorService
 import bg.qponer.qponerbackend.domain.service.VoucherService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -46,7 +47,7 @@ class ContributorController(
         cardService.completeRegistration(cardRegistrationId, contributorId, body)
     }
 
-    // TODO: change path
+    @PreAuthorize("hasRole('CONTRIBUTOR')")
     @GetMapping("/contributors/{id}/vouchers")
     fun findVouchersForContributor(
             @PathVariable("id") contributorId: Long

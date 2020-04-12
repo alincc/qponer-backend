@@ -15,7 +15,7 @@ class VoucherTransaction(
         var id: Long? = null,
 
         @get:ManyToOne
-        var owner: BusinessOwner,
+        var business: Business,
 
         @get:ManyToOne
         var contributor: Contributor,
