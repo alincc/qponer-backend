@@ -2,6 +2,7 @@ server:
   error:
     include-stacktrace: never
 
+
 spring:
   liquibase:
     contexts: dev
@@ -19,3 +20,14 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.HSQLDialect
+
+management:
+  server:
+    port: 8081
+  endpoint:
+    shutdown:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health
