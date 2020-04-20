@@ -2,7 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 01-initial
       author: pocko
-      dbms: mysql,hsqldb
+      dbms: hsqldb,postgresql
       changes:
         - createTable:
             tableName: business

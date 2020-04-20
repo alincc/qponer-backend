@@ -4,10 +4,12 @@ import bg.qponer.qponerbackend.domain.data.*
 import bg.qponer.qponerbackend.domain.repo.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
+import org.springframework.core.env.Environment
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.util.*
+import java.util.logging.Logger
 import javax.annotation.PostConstruct
 import javax.sql.DataSource
 
@@ -22,11 +24,18 @@ class ApplicationStartup(
         @Autowired val accumulatedValueRepo: AccumulatedValueRepo,
         @Autowired val voucherTypeRepo: VoucherTypeRepo,
         @Autowired val passwordEncoder: PasswordEncoder,
-        @Autowired val dataSource: DataSource
+        @Autowired val dataSource: DataSource,
+        @Autowired val environment: Environment
 ) {
+
+    val logger = Logger.getLogger(ApplicationStartup::class.qualifiedName)
 
     @PostConstruct
     fun init() {
+        if (environment.activeProfiles.contains("int")) {
+            logger.info("profile 'int' is active, so we'll prevent data insert")
+            return;
+        }
         val country = Country(code = "BG", name = "Bulgaria")
         countryRepo.save(country)
 

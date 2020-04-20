@@ -47,6 +47,7 @@ dependencies {
 
 //    runtimeOnly("com.h2database:h2")
     runtimeOnly("org.hsqldb:hsqldb")
+    runtimeOnly("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

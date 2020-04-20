@@ -5,7 +5,7 @@ databaseChangeLog:
   - property:
       name: liquibase.schema
       value: qpon
-      dbms: mysql
+      dbms: postgresql
 
   - include:
       file: db/changelog/01-initial/changelog.yaml

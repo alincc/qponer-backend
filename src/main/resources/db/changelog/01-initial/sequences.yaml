@@ -2,7 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 01-initial-sequences
       author: pocko
-      dbms: hsqldb
+      dbms: hsqldb,postgresql
       changes:
         - sql: CREATE SEQUENCE SID_USER_ID_SEQ AS BIGINT
             START WITH 1
