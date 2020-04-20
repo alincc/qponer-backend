@@ -2,7 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 02-oauth-token-store
       author: pocko
-      dbms: mysql,hsqldb
+      dbms: hsqldb,postgresql
       changes:
         - createTable:
             tableName: oauth_access_token
@@ -20,7 +20,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: token
-                  type: blob
+                  type: longblob
                   constraints:
                     nullable: false
               - column:
@@ -35,7 +35,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: authentication
-                  type: blob
+                  type: longblob
                   constraints:
                     nullable: false
               - column:
@@ -53,11 +53,11 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: token
-                  type: blob
+                  type: longblob
                   constraints:
                     nullable: false
               - column:
                   name: authentication
-                  type: blob
+                  type: longblob
                   constraints:
                     nullable: false

@@ -2,7 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 03-oauth-clients
       author: pocko
-      dbms: mysql,hsqldb
+      dbms: hsqldb,postgresql
       changes:
         - createTable:
             tableName: oauth_client_details
