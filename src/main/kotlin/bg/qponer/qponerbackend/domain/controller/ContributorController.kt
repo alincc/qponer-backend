@@ -24,6 +24,7 @@ class ContributorController(
         contributorService.save(body)
     }
 
+    @PreAuthorize("hasRole('CONTRIBUTOR')")
     @GetMapping("/contributors/{id}/cards")
     fun findCardsForContributor(
             @PathVariable("id") contributorId: Long
@@ -31,6 +32,7 @@ class ContributorController(
         cardService.findAllByOwnerId(contributorId)
     }
 
+    @PreAuthorize("hasRole('CONTRIBUTOR')")
     @PostMapping("/contributors/{id}/cards")
     fun createCardForContributor(
             @PathVariable("id") contributorId: Long
@@ -38,6 +40,7 @@ class ContributorController(
         cardService.createRegistration(contributorId)
     }
 
+    @PreAuthorize("hasRole('CONTRIBUTOR')")
     @PostMapping("/contributors/{id}/cards/{cardRegistrationId}")
     fun createCardForContributor(
             @PathVariable("id") contributorId: Long,
