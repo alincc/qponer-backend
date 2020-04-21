@@ -66,7 +66,7 @@ class MangoPayRepo(
     private fun persistUser(user: User): Pair<String, String> {
         val userId = api.Users.create(user).Id
         val walletId = api.Wallets.create(createWallet(userId, user.Email)).Id
-        return Pair(userId, walletId)
+        return Pair(walletId, userId)
     }
 
     fun createCardRegistration(
@@ -74,7 +74,7 @@ class MangoPayRepo(
     ): CardRegistration {
         val cardRegistration = com.mangopay.entities.CardRegistration().apply {
             UserId = walletUserId
-            Currency = CurrencyIso.BGN
+            Currency = CurrencyIso.EUR
             CardType = com.mangopay.core.enumerations.CardType.CB_VISA_MASTERCARD
         }
 
