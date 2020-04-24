@@ -26,8 +26,8 @@ class CardService(
     }
 
     @Transactional
-    fun completeRegistration(cardRegistrationId: String, ownerId: Long, body: CardRequestBody) =
-            createCard(cardRegistrationId, ownerId, body)
+    fun completeRegistration(ownerId: Long, body: CardRequestBody) =
+            createCard(ownerId, body)
                     .let { cardRepo.save(it) }
                     .toResponseBody()
 
@@ -49,9 +49,9 @@ class CardService(
                     accessKey, baseUrl, cardPreregistrationId, cardRegistrationUrl, cardType, clientId, preregistrationData
             )
 
-    private fun createCard(cardRegistrationId: String, ownerId: Long, body: CardRequestBody) =
+    private fun createCard(ownerId: Long, body: CardRequestBody) =
             Card(
-                    tokenId = mangoPayRepo.completeCardRegistration(cardRegistrationId, body.registrationData),
+                    tokenId = body.cardId,
                     displayName = body.number,
                     expiryDate = body.expiryDate,
                     owner = ownerId.toContributorWithId(contributorRepo))

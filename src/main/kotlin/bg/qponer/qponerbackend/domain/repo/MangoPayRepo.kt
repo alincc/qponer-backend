@@ -90,16 +90,8 @@ class MangoPayRepo(
         )
     }
 
-    fun completeCardRegistration(registrationId: String, registrationData: String): String {
-        val cardRegistration = com.mangopay.entities.CardRegistration().apply {
-            Id = registrationId
-            RegistrationData = registrationData
-        }
-        return api.CardRegistrations.update(cardRegistration).CardId
-    }
-
     fun transferFunds(
-            contributorWalletId: String,
+            contributorWalletUserId: String,
             ownerWalletId: String,
             cardTokenId: String,
             amount: BigDecimal
@@ -107,14 +99,14 @@ class MangoPayRepo(
         val payIn = PayIn().apply {
             PaymentType = PayInPaymentType.CARD
             ExecutionType = PayInExecutionType.DIRECT
-            AuthorId = contributorWalletId
+            AuthorId = contributorWalletUserId
             DebitedFunds = Money().apply {
-                Amount = amount.multiply(CENTS).intValueExact()
-                Currency = CurrencyIso.BGN
+                Amount = amount.multiply(CENTS).toInt()
+                Currency = CurrencyIso.EUR
             }
             Fees = Money().apply {
-                Amount = amount.multiply(FEE_PERCENT).multiply(CENTS).intValueExact()
-                Currency = CurrencyIso.BGN
+                Amount = PAY_IN_FEE
+                Currency = CurrencyIso.EUR
             }
             CreditedWalletId = ownerWalletId
             PaymentDetails = PayInPaymentDetailsCard().apply {
@@ -123,7 +115,7 @@ class MangoPayRepo(
             }
             ExecutionDetails = PayInExecutionDetailsDirect().apply {
                 CardId = cardTokenId
-                SecureModeReturnURL = "www.test.com"
+                SecureModeReturnURL = "http://test.com"
             }
         }
 
@@ -197,7 +189,7 @@ class MangoPayRepo(
                     }.timeInMillis / 1000
 
     companion object {
-        private val FEE_PERCENT = BigDecimal(0.025)
+        private val PAY_IN_FEE = 50
         private val CENTS = BigDecimal(100)
     }
 

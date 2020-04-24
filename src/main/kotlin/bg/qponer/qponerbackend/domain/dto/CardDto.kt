@@ -1,7 +1,7 @@
 package bg.qponer.qponerbackend.domain.dto
 
 data class CardRequestBody(
-        val registrationData: String,
+        val cardId: String,
         val number: String,
         val expiryDate: String
 )

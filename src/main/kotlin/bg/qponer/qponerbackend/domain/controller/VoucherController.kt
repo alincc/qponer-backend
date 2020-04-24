@@ -3,6 +3,7 @@ package bg.qponer.qponerbackend.domain.controller
 import bg.qponer.qponerbackend.domain.dto.VoucherRequestBody
 import bg.qponer.qponerbackend.domain.service.VoucherService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -14,6 +15,7 @@ class VoucherController(
     @GetMapping("/vouchers/types")
     fun findTypes() = runServiceMethod { voucherService.findAllTypes() }
 
+    @PreAuthorize("hasRole('CONTRIBUTOR')")
     @PostMapping("/vouchers")
     fun buy(@RequestBody body: VoucherRequestBody) = runServiceMethod { voucherService.buyVoucher(body) }
 }

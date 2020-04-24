@@ -33,21 +33,20 @@ class ContributorController(
     }
 
     @PreAuthorize("hasRole('CONTRIBUTOR')")
-    @PostMapping("/contributors/{id}/cards")
-    fun createCardForContributor(
+    @GetMapping("/contributors/{id}/cards/registrationDetails")
+    fun getCardRegistrationDetailsForContributor(
             @PathVariable("id") contributorId: Long
     ) = runServiceMethod {
         cardService.createRegistration(contributorId)
     }
 
     @PreAuthorize("hasRole('CONTRIBUTOR')")
-    @PostMapping("/contributors/{id}/cards/{cardRegistrationId}")
+    @PostMapping("/contributors/{id}/cards")
     fun createCardForContributor(
             @PathVariable("id") contributorId: Long,
-            @PathVariable("cardRegistrationId") cardRegistrationId: String,
             @RequestBody body: CardRequestBody
     ) = runServiceMethod {
-        cardService.completeRegistration(cardRegistrationId, contributorId, body)
+        cardService.completeRegistration(contributorId, body)
     }
 
     @PreAuthorize("hasRole('CONTRIBUTOR')")
