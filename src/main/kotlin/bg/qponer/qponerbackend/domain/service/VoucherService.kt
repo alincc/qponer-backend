@@ -56,7 +56,7 @@ class VoucherService(
 
         voucherTransactionRepo.save(transaction)
         if (!mangoPayRepo.transferFunds(
-                        contributor.walletId,
+                        contributor.walletUserId,
                         owner.walletId,
                         card.tokenId,
                         amount)) {
