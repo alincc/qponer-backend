@@ -17,7 +17,7 @@ interface BusinessRepo
             "where (:countryId is null or bo.headquartersAddress.country.id = :countryId) " +
             "and (:cityId is null or bo.headquartersAddress.city.id = :cityId) " +
             "and (:type is null or bo.type = :type) " +
-            "and (:nameQuery is null or lower(bo.name) like lower(concat('%', concat(:nameQuery, '%'))))")
+            "and (:nameQuery is null or lower(bo.name) like lower(cast(concat('%', :nameQuery, '%') as string)))")
     fun findAll(
             @Param("countryId") countryId: Long?,
             @Param("cityId") cityId: Long?,
