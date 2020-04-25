@@ -48,6 +48,7 @@ class BusinessService(
                 .toResponseBody()
     }
 
+    @Transactional // do not remove or suffer the magical LOB issue
     fun findAllByFilter(
             countryId: Long?,
             cityId: Long?,
